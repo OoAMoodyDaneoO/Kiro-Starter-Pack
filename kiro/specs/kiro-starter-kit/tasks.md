@@ -1,0 +1,266 @@
+# Implementation Plan: Kiro Starter Kit
+
+## Overview
+
+Build a comprehensive Kiro Starter Kit repository by creating all configuration files, steering rules, hooks, powers, sub-agents, MCP configs, skills, and documentation. Each task creates a set of related files, building incrementally toward the complete kit. A validation script ties everything together at the end.
+
+## Tasks
+
+- [x] 1. Set up repository structure and root-level files
+  - [x] 1.1 Create root-level files: `README.md` (placeholder), `LICENSE` (MIT), `.gitignore`
+    - Create `.gitignore` with entries for OS files (`.DS_Store`, `Thumbs.db`), editor configs (`.vscode/`, `.idea/`), and local env files (`.env`, `.env.local`)
+    - Create `LICENSE` with MIT license text
+    - Create `README.md` with a placeholder heading (will be filled in task 8)
+    - _Requirements: 1.7, 1.8, 1.9_
+  - [x] 1.2 Create directory structure with placeholder `.gitkeep` files
+    - Create directories: `.kiro/steering/`, `.kiro/hooks/`, `.kiro/powers/`, `.kiro/agents/`, `.kiro/skills/`
+    - Create empty `.kiro/mcp.json` with `{"mcpServers": {}}`
+    - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6_
+
+- [x] 2. Create steering files
+  - [x] 2.1 Create `.kiro/steering/coding-standards.md`
+    - Include sections: Naming Conventions (variables, functions, classes, files), Code Formatting (indentation, line length, bracket style), Documentation Expectations (function-level comments, module-level descriptions), Error Handling Patterns (explicit propagation, no silent failures)
+    - Write all rules in language-agnostic form
+    - Include `<!-- Scope: Global -->` metadata comment
+    - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
+  - [x] 2.2 Create `.kiro/steering/testing-standards.md`
+    - Include sections: Test File Organization (co-location or dedicated directory), Test Naming Conventions (describe scenario under test), Test Structure (Arrange-Act-Assert), Mocking and Stubbing (minimal test doubles), Property-Based Testing (universal properties, PBT library)
+    - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
+  - [x] 2.3 Create `.kiro/steering/aws-best-practices.md`
+    - Include sections: IAM Policies (least-privilege), Resource Tagging (environment, owner, cost-center), Encryption (at rest and in transit), Logging and Monitoring (CloudTrail, CloudWatch), Infrastructure-as-Code (version-controlled templates)
+    - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
+  - [x] 2.4 Create `.kiro/steering/security-standards.md`
+    - Include sections: Input Validation (validate and sanitize all external inputs), Secret Management (no hardcoded credentials, use secrets manager), Dependency Management (pinned versions, vulnerability scanning), Authentication and Authorization (token-based auth, RBAC), Output Encoding (context-appropriate encoding, prevent injection)
+    - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
+  - [x] 2.5 Create `.kiro/steering/code-review-standards.md`
+    - Include sections: Review Scope (correctness, readability, maintainability), Feedback Tone (constructive, specific, actionable), Review Checklists (error handling, edge cases, performance), Approval Criteria (all critical issues resolved before merge)
+    - _Requirements: 6.1, 6.2, 6.3, 6.4_
+  - [x] 2.6 Create `.kiro/steering/documentation-standards.md`
+    - Include sections: README Structure (description, setup, usage, contributing), API Documentation (parameter descriptions, return types, examples), Inline Comments (complex logic, non-obvious decisions), Changelog Maintenance (breaking changes, features, bug fixes)
+    - _Requirements: 7.1, 7.2, 7.3, 7.4_
+
+- [x] 3. Checkpoint — Verify steering files
+  - Ensure all 6 steering files exist and contain the required sections. Ask the user if questions arise.
+
+- [x] 4. Create agent hooks
+  - [x] 4.1 Create `.kiro/hooks/auto-test-generation.md`
+    - Define trigger: on-save for source files
+    - Define action: generate or update unit tests for the saved file
+    - Include inline comments explaining trigger, conditions, and actions
+    - _Requirements: 8.1, 8.7_
+  - [x] 4.2 Create `.kiro/hooks/pre-commit-review.md`
+    - Define trigger: pre-commit
+    - Define action: review staged changes and provide feedback
+    - Include inline comments
+    - _Requirements: 8.2, 8.7_
+  - [x] 4.3 Create `.kiro/hooks/doc-generation.md`
+    - Define trigger: on-save for files with public API changes
+    - Define action: generate or update documentation
+    - Include inline comments
+    - _Requirements: 8.3, 8.7_
+  - [x] 4.4 Create `.kiro/hooks/dependency-security-check.md`
+    - Define trigger: on-save for package manifest files (package.json, requirements.txt, etc.)
+    - Define action: check newly added dependencies for known vulnerabilities
+    - Include inline comments
+    - _Requirements: 8.4, 8.7_
+  - [x] 4.5 Create `.kiro/hooks/iac-validation.md`
+    - Define trigger: on-save for IaC files (CloudFormation, Terraform, CDK)
+    - Define action: validate template syntax and best practices
+    - Include inline comments
+    - _Requirements: 8.5, 8.7_
+  - [x] 4.6 Create `.kiro/hooks/commit-message-generator.md`
+    - Define trigger: pre-commit or on-demand
+    - Define action: generate a commit message summary from staged changes
+    - Include inline comments
+    - _Requirements: 8.6, 8.7_
+
+- [x] 5. Create power configurations
+  - [x] 5.1 Create `.kiro/powers/on-save-lint.md`
+    - Pattern: event-driven
+    - Trigger: file save event
+    - Action: lint and auto-fix the saved file
+    - Include inline comments explaining each field
+    - _Requirements: 9.1, 9.5_
+  - [x] 5.2 Create `.kiro/powers/scheduled-dependency-audit.md`
+    - Pattern: scheduled/periodic
+    - Trigger: periodic schedule (e.g., weekly)
+    - Action: scan all dependencies for vulnerabilities and generate report
+    - Include inline comments
+    - _Requirements: 9.2, 9.5_
+  - [x] 5.3 Create `.kiro/powers/context-aware-suggestions.md`
+    - Pattern: context-aware
+    - Trigger: project context detection (e.g., detecting framework, language)
+    - Action: adapt suggestions based on detected project type
+    - Include inline comments
+    - _Requirements: 9.3, 9.5_
+  - [x] 5.4 Create `.kiro/powers/multi-step-deploy-check.md`
+    - Pattern: multi-step workflow
+    - Trigger: deploy preparation command
+    - Action: chain lint → test → build → deploy readiness check
+    - Include inline comments
+    - _Requirements: 9.4, 9.5_
+
+- [x] 6. Checkpoint — Verify hooks and powers
+  - Ensure all 6 hooks and 4 powers exist with proper structure and inline comments. Ask the user if questions arise.
+
+- [x] 7. Create sub-agent configurations
+  - [x] 7.1 Create `.kiro/agents/code-reviewer.md`
+    - Specialization: code quality, correctness, and style feedback
+    - System prompt: focused on identifying bugs, style issues, and suggesting improvements
+    - Tools: file read, diagnostics
+    - Include inline comments explaining each field
+    - _Requirements: 10.1, 10.9_
+  - [x] 7.2 Create `.kiro/agents/test-generator.md`
+    - Specialization: unit tests and property-based tests
+    - System prompt: focused on generating comprehensive test coverage
+    - Tools: file read, file write, diagnostics
+    - Include inline comments
+    - _Requirements: 10.2, 10.9_
+  - [x] 7.3 Create `.kiro/agents/doc-writer.md`
+    - Specialization: README, API docs, inline comments
+    - System prompt: focused on clear, comprehensive documentation
+    - Tools: file read, file write
+    - Include inline comments
+    - _Requirements: 10.3, 10.9_
+  - [x] 7.4 Create `.kiro/agents/security-auditor.md`
+    - Specialization: vulnerability identification and remediation
+    - System prompt: focused on OWASP top 10, dependency vulnerabilities, secret exposure
+    - Tools: file read, grep search, diagnostics
+    - Include inline comments
+    - _Requirements: 10.4, 10.9_
+  - [x] 7.5 Create `.kiro/agents/refactoring-assistant.md`
+    - Specialization: code improvements preserving behavior
+    - System prompt: focused on DRY, SOLID, reducing complexity
+    - Tools: file read, file write, diagnostics
+    - Include inline comments
+    - _Requirements: 10.5, 10.9_
+  - [x] 7.6 Create `.kiro/agents/debugger.md`
+    - Specialization: error analysis and root cause identification
+    - System prompt: focused on analyzing stack traces, logs, and reproducing issues
+    - Tools: file read, grep search, terminal
+    - Include inline comments
+    - _Requirements: 10.6, 10.9_
+  - [x] 7.7 Create `.kiro/agents/architecture-reviewer.md`
+    - Specialization: system design evaluation and improvement
+    - System prompt: focused on separation of concerns, scalability, maintainability
+    - Tools: file read, directory listing, grep search
+    - Include inline comments
+    - _Requirements: 10.7, 10.9_
+  - [x] 7.8 Create `.kiro/agents/performance-optimizer.md`
+    - Specialization: bottleneck identification and optimization
+    - System prompt: focused on algorithmic complexity, resource usage, caching
+    - Tools: file read, diagnostics, grep search
+    - Include inline comments
+    - _Requirements: 10.8, 10.9_
+
+- [x] 8. Create MCP server configuration
+  - [x] 8.1 Create `.kiro/mcp.json` with all MCP server entries
+    - Add `filesystem` entry: file system operations tool server
+    - Add `postgres` entry: database querying tool server with `${POSTGRES_CONNECTION_STRING}` placeholder
+    - Add `brave-search` entry: web search tool server with `${BRAVE_API_KEY}` placeholder
+    - Add `github` entry: GitHub API tool server with `${GITHUB_TOKEN}` placeholder
+    - All sensitive values use `${VAR_NAME}` placeholder syntax
+    - _Requirements: 11.1, 11.2, 11.3, 11.5, 11.6_
+
+- [x] 9. Checkpoint — Verify sub-agents and MCP config
+  - Ensure all 8 sub-agents exist with proper structure and inline comments. Verify `mcp.json` parses as valid JSON with 3-4 entries. Ask the user if questions arise.
+
+- [x] 10. Create skill definitions
+  - [x] 10.1 Create `.kiro/skills/scaffold-microservice.md`
+    - Category: scaffolding
+    - Inputs: service name, language, framework
+    - Steps: create directory structure, add boilerplate, configure build, add README
+    - Include inline comments explaining each section
+    - _Requirements: 12.1, 12.11_
+  - [x] 10.2 Create `.kiro/skills/generate-crud-api.md`
+    - Category: generation
+    - Inputs: resource name, fields, database type
+    - Steps: generate model, controller, routes, validation, error handling
+    - Include inline comments
+    - _Requirements: 12.2, 12.11_
+  - [x] 10.3 Create `.kiro/skills/setup-cicd.md`
+    - Category: setup
+    - Inputs: CI provider, language, deployment target
+    - Steps: generate pipeline config, add build/test/deploy stages, configure secrets
+    - Include inline comments
+    - _Requirements: 12.3, 12.11_
+  - [x] 10.4 Create `.kiro/skills/generate-db-migration.md`
+    - Category: generation
+    - Inputs: schema change description, database type, migration tool
+    - Steps: generate migration file, add up/down methods, validate SQL
+    - Include inline comments
+    - _Requirements: 12.4, 12.11_
+  - [x] 10.5 Create `.kiro/skills/create-frontend-component.md`
+    - Category: scaffolding
+    - Inputs: component name, framework (React/Vue/etc.), styling approach
+    - Steps: create component file, add props/types, create test file, add documentation
+    - Include inline comments
+    - _Requirements: 12.5, 12.11_
+  - [x] 10.6 Create `.kiro/skills/write-test-suite.md`
+    - Category: generation
+    - Inputs: target module path, test framework
+    - Steps: analyze module, generate unit tests, generate edge case tests, add property tests
+    - Include inline comments
+    - _Requirements: 12.6, 12.11_
+  - [x] 10.7 Create `.kiro/skills/generate-api-client.md`
+    - Category: generation
+    - Inputs: OpenAPI spec path, target language, output directory
+    - Steps: parse spec, generate client classes, add type definitions, generate usage examples
+    - Include inline comments
+    - _Requirements: 12.7, 12.11_
+  - [x] 10.8 Create `.kiro/skills/security-audit.md`
+    - Category: audit
+    - Inputs: target directory, audit scope (deps/code/both)
+    - Steps: scan dependencies, analyze code for vulnerabilities, check secrets exposure, generate report
+    - Include inline comments
+    - _Requirements: 12.8, 12.11_
+  - [x] 10.9 Create `.kiro/skills/setup-monitoring.md`
+    - Category: setup
+    - Inputs: service name, cloud provider, alert channels
+    - Steps: generate monitoring config, add health checks, configure alerts, add dashboard template
+    - Include inline comments
+    - _Requirements: 12.9, 12.11_
+  - [x] 10.10 Create `.kiro/skills/generate-iac.md`
+    - Category: generation
+    - Inputs: architecture description, cloud provider, IaC tool (CloudFormation/Terraform/CDK)
+    - Steps: parse architecture, generate resource definitions, add networking, add IAM, add outputs
+    - Include inline comments
+    - _Requirements: 12.10, 12.11_
+
+- [x] 11. Checkpoint — Verify skills
+  - Ensure all 10 skill files exist with proper structure and inline comments. Ask the user if questions arise.
+
+- [x] 12. Create README.md with full documentation
+  - [x] 12.1 Write the complete `README.md`
+    - Table of contents linking to all sections
+    - Quick-start section: clone, open in IDE, verify, customize
+    - "What's Included" section with subsections for each config type (Steering Files, Hooks, Powers, Sub-Agents, MCP Servers, Skills) — each with a brief description and link to the relevant directory
+    - Customization guide: how to add, modify, or remove configurations
+    - Contributing section: guidelines for community contributions
+    - License section
+    - _Requirements: 13.1, 13.2, 13.3, 13.4, 13.5_
+  - [x] 12.2 Add MCP configuration documentation to README
+    - Document each MCP server entry and its purpose
+    - List all required environment variables and how to set them
+    - _Requirements: 11.4_
+
+- [x] 13. Create validation script
+  - [x] 13.1 Create `validate.sh` at repository root
+    - Check all required directories exist
+    - Check file counts (6 steering, 6 hooks, 4 powers, 8 agents, 10 skills)
+    - Verify `mcp.json` is valid JSON with 3-4 entries
+    - Check README contains required sections (TOC, quick-start, config sections, customization, contributing)
+    - Check each steering file contains required section headings
+    - Check each hook/power/agent/skill contains inline comments
+    - Print pass/fail summary
+    - _Requirements: 1.1–1.9, 2.1–2.4, 3.1–3.5, 4.1–4.5, 5.1–5.5, 6.1–6.4, 7.1–7.4, 8.7, 9.5, 10.9, 12.11_
+
+- [x] 14. Final checkpoint — Run validation and verify completeness
+  - Run `validate.sh` and ensure all checks pass. Ask the user if questions arise.
+
+## Notes
+
+- All deliverables are static configuration files (Markdown, JSON, shell script) — no application code
+- Each task builds incrementally: structure → steering → hooks → powers → agents → MCP → skills → docs → validation
+- Checkpoints at tasks 3, 6, 9, 11, and 14 ensure incremental verification
+- Every configuration file includes inline comments for self-documentation
